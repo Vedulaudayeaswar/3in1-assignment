@@ -1,0 +1,167 @@
+{% extends "base.html" %} {% block title %}Register – Deep RL Labs{% endblock %}
+{% block body %}
+<div class="auth-container">
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="auth-card animate-in">
+    <div class="auth-logo">
+      <div class="logo-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="22" stroke="url(#g1)" stroke-width="2.5" />
+          <path
+            d="M16 28 L22 18 L28 26 L34 14"
+            stroke="url(#g1)"
+            stroke-width="2.5"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <circle cx="16" cy="28" r="2.5" fill="#6C63FF" />
+          <circle cx="22" cy="18" r="2.5" fill="#00D9FF" />
+          <circle cx="28" cy="26" r="2.5" fill="#6C63FF" />
+          <circle cx="34" cy="14" r="2.5" fill="#00D9FF" />
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="48" y2="48">
+              <stop stop-color="#6C63FF" />
+              <stop offset="1" stop-color="#00D9FF" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <h1>Create Account</h1>
+      <p class="auth-subtitle">Join the Deep RL Labs platform</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+      <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <form method="POST" class="auth-form" id="registerForm">
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <div class="input-wrapper">
+          <svg
+            class="input-icon"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            placeholder="John Doe"
+            required
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <svg
+            class="input-icon"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="2" y="4" width="20" height="16" rx="2" />
+            <path d="m2 4 10 8 10-8" />
+          </svg>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <svg
+              class="input-icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••"
+              required
+              minlength="6"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirm_password">Confirm</label>
+          <div class="input-wrapper">
+            <svg
+              class="input-icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <input
+              type="password"
+              id="confirm_password"
+              name="confirm_password"
+              placeholder="••••••"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">
+        <span>Create Account</span>
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="8.5" cy="7" r="4" />
+          <line x1="20" y1="8" x2="20" y2="14" />
+          <line x1="23" y1="11" x2="17" y2="11" />
+        </svg>
+      </button>
+    </form>
+    <p class="auth-footer">
+      Already have an account? <a href="{{ url_for('login') }}">Sign in</a>
+    </p>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/three-bg.js') }}"></script>
+{% endblock %}

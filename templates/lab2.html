@@ -1,0 +1,314 @@
+{% extends "base.html" %} {% block title %}Lab 2 – Multi-Agent Traffic &
+Delivery{% endblock %} {% block body %}
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" stroke="url(#gs)" stroke-width="2.5" />
+        <path
+          d="M16 28 L22 18 L28 26 L34 14"
+          stroke="url(#gs)"
+          stroke-width="2.5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <circle cx="16" cy="28" r="2" fill="#6C63FF" />
+        <circle cx="22" cy="18" r="2" fill="#00D9FF" />
+        <circle cx="28" cy="26" r="2" fill="#6C63FF" />
+        <circle cx="34" cy="14" r="2" fill="#00D9FF" />
+        <defs>
+          <linearGradient id="gs" x1="0" y1="0" x2="48" y2="48">
+            <stop stop-color="#6C63FF" />
+            <stop offset="1" stop-color="#00D9FF" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span>Deep RL Labs</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}" class="nav-item">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="{{ url_for('lab1') }}" class="nav-item">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+        <span>Lab 1 – Smart Grid</span>
+      </a>
+      <a href="{{ url_for('lab2') }}" class="nav-item active">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+        <span>Lab 2 – Traffic</span>
+      </a>
+      <a href="{{ url_for('lab3') }}" class="nav-item">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
+        <span>Lab 3 – Healthcare</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="{{ url_for('logout') }}" class="logout-link">Sign out</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="lab-header animate-in">
+      <div class="lab-header-info">
+        <div class="card-badge badge-blue">Lab 2</div>
+        <h1>Multi-Agent Traffic Signal & Delivery Optimization</h1>
+        <p>
+          Multi-agent RL system where intersection agents control signal timing
+          and coordinate with delivery fleet routing.
+        </p>
+      </div>
+    </div>
+
+    <!-- 3D Traffic Visualization -->
+    <div class="viz-section animate-in" style="animation-delay: 0.1s">
+      <div class="viz-card">
+        <h3>3D Traffic Grid Visualization</h3>
+        <div id="lab2-3d" class="threejs-container"></div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="info-section animate-in" style="animation-delay: 0.15s">
+      <div class="info-card">
+        <h3>Problem Statement</h3>
+        <p>
+          Design an agentic traffic management system for a small urban road
+          network. Each intersection acts as an RL agent controlling signal
+          timing, while a central fleet dispatcher coordinates delivery routes
+          to reduce congestion and delivery delays.
+        </p>
+        <div class="objectives-grid">
+          <div class="objective">
+            <div class="obj-icon">🚦</div>
+            <div>
+              <strong>Multi-Agent RL</strong><br />Intersections as independent
+              agents
+            </div>
+          </div>
+          <div class="objective">
+            <div class="obj-icon">🚚</div>
+            <div>
+              <strong>Fleet Dispatch</strong><br />Delivery vehicles with time
+              windows
+            </div>
+          </div>
+          <div class="objective">
+            <div class="obj-icon">🤖</div>
+            <div>
+              <strong>MAPPO Algorithm</strong><br />Joint reward for traffic +
+              delivery
+            </div>
+          </div>
+          <div class="objective">
+            <div class="obj-icon">📊</div>
+            <div>
+              <strong>Metrics</strong><br />Travel time, throughput, on-time %
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-section animate-in" style="animation-delay: 0.2s">
+      <div class="controls-card">
+        <h3>Simulation Parameters</h3>
+        <div class="controls-grid">
+          <div class="control-group">
+            <label>Training Episodes</label>
+            <input
+              type="range"
+              id="lab2-episodes"
+              min="20"
+              max="100"
+              value="50"
+              oninput="this.nextElementSibling.textContent = this.value"
+            />
+            <span class="range-value">50</span>
+          </div>
+          <div class="control-group">
+            <label>Grid Size (NxN)</label>
+            <input
+              type="range"
+              id="lab2-grid"
+              min="2"
+              max="5"
+              value="3"
+              oninput="
+                this.nextElementSibling.textContent =
+                  this.value + 'x' + this.value
+              "
+            />
+            <span class="range-value">3x3</span>
+          </div>
+          <div class="control-group">
+            <label>Delivery Vehicles</label>
+            <input
+              type="range"
+              id="lab2-vehicles"
+              min="3"
+              max="20"
+              value="8"
+              oninput="this.nextElementSibling.textContent = this.value"
+            />
+            <span class="range-value">8</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="lab2-run" onclick="runLab2()">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polygon points="5 3 19 12 5 21 5 3" />
+          </svg>
+          <span>Run Simulation</span>
+        </button>
+        <div id="lab2-status" class="status-bar hidden">
+          <div class="spinner"></div>
+          <span>Training multi-agent system... This may take a moment.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="lab2-results" class="results-section hidden">
+      <div class="comparison-cards animate-in">
+        <h3>MAPPO Agent vs Static Timing Baseline</h3>
+        <div class="comp-grid">
+          <div class="comp-card">
+            <div class="comp-label">Avg Queue Length</div>
+            <div class="comp-values">
+              <div class="comp-rl">
+                <span class="comp-tag">RL</span> <span id="t-rl-queue">-</span>
+              </div>
+              <div class="comp-base">
+                <span class="comp-tag">Baseline</span>
+                <span id="t-base-queue">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="comp-card">
+            <div class="comp-label">Total Throughput</div>
+            <div class="comp-values">
+              <div class="comp-rl">
+                <span class="comp-tag">RL</span> <span id="t-rl-thru">-</span>
+              </div>
+              <div class="comp-base">
+                <span class="comp-tag">Baseline</span>
+                <span id="t-base-thru">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="comp-card">
+            <div class="comp-label">On-Time Delivery %</div>
+            <div class="comp-values">
+              <div class="comp-rl">
+                <span class="comp-tag">RL</span> <span id="t-rl-ontime">-</span>
+              </div>
+              <div class="comp-base">
+                <span class="comp-tag">Baseline</span>
+                <span id="t-base-ontime">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="comp-card">
+            <div class="comp-label">Deliveries Completed</div>
+            <div class="comp-values">
+              <div class="comp-rl">
+                <span class="comp-tag">RL</span> <span id="t-rl-deliv">-</span>
+              </div>
+              <div class="comp-base">
+                <span class="comp-tag">Baseline</span>
+                <span id="t-base-deliv">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-grid animate-in" style="animation-delay: 0.1s">
+        <div class="chart-card">
+          <h4>Training Reward Curve</h4>
+          <canvas id="chart-t-reward"></canvas>
+        </div>
+        <div class="chart-card">
+          <h4>Queue Length (RL vs Baseline)</h4>
+          <canvas id="chart-t-queue"></canvas>
+        </div>
+        <div class="chart-card">
+          <h4>Throughput Over Time</h4>
+          <canvas id="chart-t-throughput"></canvas>
+        </div>
+        <div class="chart-card">
+          <h4>On-Time Delivery %</h4>
+          <canvas id="chart-t-ontime"></canvas>
+        </div>
+      </div>
+
+      <!-- Traffic Grid Map -->
+      <div class="grid-map-section animate-in" style="animation-delay: 0.2s">
+        <div class="chart-card">
+          <h4>Intersection Signal Map (Final State)</h4>
+          <div id="traffic-grid-map" class="traffic-grid-map"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lab-nav animate-in" style="animation-delay: 0.3s">
+      <a href="{{ url_for('lab1') }}" class="btn btn-outline"
+        >← Lab 1: Smart Grid</a
+      >
+      <a href="{{ url_for('lab3') }}" class="btn btn-primary"
+        >Next: Lab 3 – Healthcare →</a
+      >
+    </div>
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/lab2.js') }}"></script>
+{% endblock %}

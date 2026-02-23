@@ -1,0 +1,304 @@
+{% extends "base.html" %} {% block title %}Dashboard – Deep RL Labs{% endblock
+%} {% block body %}
+<div class="app-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" stroke="url(#gs)" stroke-width="2.5" />
+        <path
+          d="M16 28 L22 18 L28 26 L34 14"
+          stroke="url(#gs)"
+          stroke-width="2.5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <circle cx="16" cy="28" r="2" fill="#6C63FF" />
+        <circle cx="22" cy="18" r="2" fill="#00D9FF" />
+        <circle cx="28" cy="26" r="2" fill="#6C63FF" />
+        <circle cx="34" cy="14" r="2" fill="#00D9FF" />
+        <defs>
+          <linearGradient id="gs" x1="0" y1="0" x2="48" y2="48">
+            <stop stop-color="#6C63FF" />
+            <stop offset="1" stop-color="#00D9FF" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span>Deep RL Labs</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}" class="nav-item active">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="{{ url_for('lab1') }}" class="nav-item">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+        <span>Lab 1 – Smart Grid</span>
+      </a>
+      <a href="{{ url_for('lab2') }}" class="nav-item">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+        <span>Lab 2 – Traffic</span>
+      </a>
+      <a href="{{ url_for('lab3') }}" class="nav-item">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
+        <span>Lab 3 – Healthcare</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar">{{ user_name[0] | upper }}</div>
+        <div>
+          <div class="user-name">{{ user_name }}</div>
+          <a href="{{ url_for('logout') }}" class="logout-link">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="dashboard-header animate-in">
+      <div>
+        <h1>Welcome back, {{ user_name.split(' ')[0] }}!</h1>
+        <p>Select a lab experiment to begin your Deep RL simulation.</p>
+      </div>
+    </div>
+
+    <div class="lab-cards">
+      <!-- Lab 1 Card -->
+      <div
+        class="lab-card animate-in"
+        style="animation-delay: 0.1s"
+        onclick="window.location='{{ url_for('lab1') }}'"
+      >
+        <div class="card-3d-container" id="card3d-1"></div>
+        <div class="card-content">
+          <div class="card-badge badge-green">Lab 1</div>
+          <h2>Smart Grids – EV Charging Optimization</h2>
+          <p>
+            Design an autonomous EV charging controller using Deep RL (PPO/SAC)
+            for smart distribution grids. Minimize peak demand, reduce energy
+            costs, ensure all EVs are charged before departure.
+          </p>
+          <div class="card-tags">
+            <span class="tag">PPO</span>
+            <span class="tag">Smart Grid</span>
+            <span class="tag">Safety Filter</span>
+            <span class="tag">EV Charging</span>
+          </div>
+          <div class="card-action">
+            <span>Launch Simulation</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lab 2 Card -->
+      <div
+        class="lab-card animate-in"
+        style="animation-delay: 0.2s"
+        onclick="window.location='{{ url_for('lab2') }}'"
+      >
+        <div class="card-3d-container" id="card3d-2"></div>
+        <div class="card-content">
+          <div class="card-badge badge-blue">Lab 2</div>
+          <h2>Multi-Agent Traffic Signal & Delivery</h2>
+          <p>
+            Build a multi-agent traffic management system with MAPPO.
+            Intersections as independent RL agents controlling signal timing,
+            coordinating with delivery fleet optimization.
+          </p>
+          <div class="card-tags">
+            <span class="tag">MAPPO</span>
+            <span class="tag">Multi-Agent</span>
+            <span class="tag">Traffic Control</span>
+            <span class="tag">Logistics</span>
+          </div>
+          <div class="card-action">
+            <span>Launch Simulation</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lab 3 Card -->
+      <div
+        class="lab-card animate-in"
+        style="animation-delay: 0.3s"
+        onclick="window.location='{{ url_for('lab3') }}'"
+      >
+        <div class="card-3d-container" id="card3d-3"></div>
+        <div class="card-content">
+          <div class="card-badge badge-purple">Lab 3</div>
+          <h2>EEG-Guided Parkinson's Therapy Tuning</h2>
+          <p>
+            Develop a closed-loop AI agent that adjusts therapy (drug dosage /
+            DBS parameters) for simulated Parkinson's patients based on EEG
+            biomarkers. Reduce symptoms while minimizing side effects.
+          </p>
+          <div class="card-tags">
+            <span class="tag">PPO/SAC</span>
+            <span class="tag">Healthcare</span>
+            <span class="tag">EEG Biomarkers</span>
+            <span class="tag">Safety</span>
+          </div>
+          <div class="card-action">
+            <span>Launch Simulation</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem overview cards -->
+    <div class="overview-section animate-in" style="animation-delay: 0.4s">
+      <h2 class="section-title">Platform Overview</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon icon-green">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">3</div>
+            <div class="stat-label">RL Environments</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon icon-blue">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 20V10M18 20V4M6 20v-4" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">PPO + SAC</div>
+            <div class="stat-label">Algorithms</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon icon-purple">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <path d="M22 4 12 14.01l-3-3" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">Real-Time</div>
+            <div class="stat-label">3D Visualizations</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon icon-orange">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">Safety</div>
+            <div class="stat-label">Constraint Filters</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/three-bg.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard-3d.js') }}"></script>
+{% endblock %}
