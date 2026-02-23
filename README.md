@@ -121,10 +121,10 @@ Open **http://127.0.0.1:5000** in your browser. Register an account, log in, and
 
 ## Authors
 
-**Vedula Udaye Aswar** – [GitHub](https://github.com/Vedulaudayeaswar)
+**Vedula Uday easwar** – [GitHub](https://github.com/Vedulaudayeaswar)
 
 ---
 
 ## License
 
-This project is for educational/academic purposes.
+This project is for educational/academic purposes and ML assignement 
